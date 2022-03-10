@@ -60,22 +60,4 @@ module.exports = class {
 
 	}
 
-	async get_body_element (localName) {
-
-		const e = await new XMLReader ({
-
-			stripSpace     : true,
-
-			filterElements : localName,
-
-			map            : MoxyLikeJsonEncoder ()
-
-		}).process (this.body).findFirst ()
-		
-		if (e === null) throw '#body#":' + localName + ' not found'
-		
-		return e
-				
-	}	
-
 }

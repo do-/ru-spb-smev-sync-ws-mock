@@ -5,15 +5,6 @@
                 "port"    : 8000
         },
         
-        "ftp": {
-            "login": "...",
-            "password": "!!!"
-        },
-
-        "smev": {
-		"converter_url": "http://..."
-        },
-
-        "logs": "/var/projects/smev_mock/back/logs"
+        "logs": "/var/projects/ru-spb-smev-sync-ws-mock/back/logs"
 
 }

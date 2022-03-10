@@ -1,4 +1,6 @@
 const Dia = require ('../../Ext/Dia/Dia.js')
+const {XMLReader, XMLNode} = require ('xml-toolkit')
+
 module.exports = class extends Dia.HTTP.Handler {
     
     constructor (o) {
@@ -34,24 +36,33 @@ module.exports = class extends Dia.HTTP.Handler {
     is_transactional () {
         return false
     }
-
-    parse_http_request_body () {
     
-    	const map = {
-    		SendRequest : 'send_request',
-    		GetResponse : 'get_response',
-    		Ack         : 'ack',
-    	}
+    async read_params () {
+        
+        this.rq = {}
+        
+		const xml = await this.get_http_request_body (this.http.request)
+                
+		const body = await new XMLReader ({
+			filterElements : 'Body',
+			map            : XMLNode.toObject ({})
+		}).process (xml).findFirst ()   		
+		
+		const [[t, d]] = Object.entries (body)
+		
+		this.rq.type = t
 
-    	let {body} = this, [_, tag] = /<SOAP[\w\-]+:Body>\s*<(\w+)Request/.exec (body)
+			.replace (/Request$/, '') // method, not message name
 
-    	if (!tag) throw new Error ('Cannot detect Request element in ' + body)
+			.replace (/[A-Z]/g,       // CamelCase to under_scores
+				(m, o) => (o ? '_' : '') + m.toLowerCase ()
+			)		
+		
+		for (const [k, v] of Object.entries (d)) this.rq [k] = d
+		
+darn (this.rq)
 
-    	let type = map [tag]; if (!type) throw new Error ('Unknown request type: ' + tag)
-    	
-    	this.rq = {type, action: 'reply_to'}
-
-    }
+    }    
 
     send_out_data (data) {
  		let rp = this.http.response
