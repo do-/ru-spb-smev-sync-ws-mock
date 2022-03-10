@@ -58,9 +58,7 @@ module.exports = class extends Dia.HTTP.Handler {
 				(m, o) => (o ? '_' : '') + m.toLowerCase ()
 			)		
 		
-		for (const [k, v] of Object.entries (d)) this.rq [k] = d
-		
-darn (this.rq)
+		for (const [k, v] of Object.entries (d)) this.rq [k] = d [k]
 
     }    
 

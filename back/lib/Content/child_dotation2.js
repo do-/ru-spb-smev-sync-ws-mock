@@ -6,6 +6,49 @@ select_child_dotation2:
 
     function () {
     
+    	const {rq: {MessageData: {AppData: {info: {snils, startDate, endDate}}}}} = this
+    	    	
+    	let   dt    = new Date (('' + startDate).slice (0, 10)); if (isNaN (dt))    throw new Error ('Wrong startDate: ' + startDate)
+    	const dt_to = new Date (('' + endDate).slice (0, 10));   if (isNaN (dt_to)) throw new Error ('Wrong endDate: '   + endDate)
+
+    	if (dt > dt_to) throw new Error ('startDate > endDate: ' + startDate + ' > ' + endDate)
+    	
+    	let dotations = ''; while (dt < dt_to) {
+    	
+			const m = 1 + dt.getMonth ()
+
+			dotations += `
+                  <dotation>
+                     <grantName>Ежемесячное пособие на детей от рождения до 1.5 лет (1-й ребенок) – абз. 2 части  1 ст. 5 Закона СПб от 24.11.2004г. № 587-80 «О социальной поддержке семей, имеющих детей, в Санкт-Петербурге»</grantName>
+                     <properties>
+                        <property>
+                           <monthSum>${m}</monthSum>
+                           <monthYear>${dt.getFullYear ()}</monthYear>
+                           <grantSum>${(10000 * Math.random ()).toFixed (2).replace ('.', ',')}</grantSum>
+                           <beneficiary>
+                              <fNameCiv>ПАНКРАТОВА</fNameCiv>
+                              <iNameCiv>ОЛЬГА</iNameCiv>
+                              <mNameCiv>АЛЕКСАНДРОВНА</mNameCiv>
+                              <docDatCiv>1978-03-04T00:00:00.000Z</docDatCiv>
+                           </beneficiary>
+                           <beneficiarySnils/>
+                           <beneficiaryAddress>
+                              <index>198320</index>
+                              <reg>Санкт-Петербург</reg>
+                              <town>Санкт-Петербург</town>
+                              <street>КР СЕЛО НАРВСКАЯ УЛ.</street>
+                              <house>6</house>
+                              <flat>61</flat>
+                           </beneficiaryAddress>
+                        </property>
+                     </properties>
+                  </dotation>
+			`
+
+			dt.setMonth (m)
+
+    	}
+
 		return (
 			`<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <SOAP-ENV:Header>
@@ -64,7 +107,7 @@ select_child_dotation2:
                      <mNameCiv>АЛЕКСАНДРОВНА</mNameCiv>
                      <docDatCiv>1978-03-04T00:00:00.000Z</docDatCiv>
                   </person>
-                  <snils>051-813-315 27</snils>
+                  <snils>${snils}</snils>
                   <document>
                      <codeKind>01</codeKind>
                      <numDoc>150977</numDoc>
@@ -89,33 +132,7 @@ select_child_dotation2:
                   <childSnils/>
                   <handlingCode>0</handlingCode>
                </info>
-               <dotations>
-                  <dotation>
-                     <grantName>Ежемесячное пособие на детей от рождения до 1.5 лет (1-й ребенок) – абз. 2 части  1 ст. 5 Закона СПб от 24.11.2004г. № 587-80 «О социальной поддержке семей, имеющих детей, в Санкт-Петербурге»</grantName>
-                     <properties>
-                        <property>
-                           <monthSum>6</monthSum>
-                           <monthYear>2011</monthYear>
-                           <grantSum>2115,86</grantSum>
-                           <beneficiary>
-                              <fNameCiv>ПАНКРАТОВА</fNameCiv>
-                              <iNameCiv>ОЛЬГА</iNameCiv>
-                              <mNameCiv>АЛЕКСАНДРОВНА</mNameCiv>
-                              <docDatCiv>1978-03-04T00:00:00.000Z</docDatCiv>
-                           </beneficiary>
-                           <beneficiarySnils/>
-                           <beneficiaryAddress>
-                              <index>198320</index>
-                              <reg>Санкт-Петербург</reg>
-                              <town>Санкт-Петербург</town>
-                              <street>КР СЕЛО НАРВСКАЯ УЛ.</street>
-                              <house>6</house>
-                              <flat>61</flat>
-                           </beneficiaryAddress>
-                        </property>
-                     </properties>
-                  </dotation>
-               </dotations>
+               <dotations>${dotations}</dotations>
                <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
                   <KeyInfo>
                      <X509Data>
