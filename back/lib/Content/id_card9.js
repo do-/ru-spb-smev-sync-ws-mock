@@ -2,7 +2,7 @@ module.exports = {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-select_id_card8:
+select_id_card9:
 
     function () {
     
@@ -16,7 +16,7 @@ select_id_card8:
       <wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"/>
    </soapenv:Header>
    <soapenv:Body wsu:Id="body" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-      <ns1:idCard8Response xmlns:ns1="http://smev.gosuslugi.ru/rev111111">
+      <ns1:idCard9Response xmlns:ns1="http://smev.gosuslugi.ru/rev111111">
          <ns1:Message>
             <ns1:Sender>
                <ns1:Code>SIV_IOGV_SPB</ns1:Code>
@@ -56,9 +56,9 @@ select_id_card8:
                   <handlingCode>0</handlingCode>
                </info>
                <document>
-                  <titleDoc>Удостоверение ветерана Великой Отечественной войны</titleDoc>
+                  <titleDoc>Удостоверение ветерана труда</titleDoc>
                   <numDoc>${('0' + Math.floor (1e6 * Math.random ())).slice (-6)}</numDoc>
-                  <seriesDoc>ВОВ</seriesDoc>
+                  <seriesDoc>${String.fromCharCode ('А'.charCodeAt (0) + Math.floor (32 * Math.random ()))}</seriesDoc>
                   <dateDoc>${new Date (Date.now () - 2e12 * Math.random ()).toJSON ().slice (0, 10) + 'T00:00:00'}</dateDoc>
                   <orgDoc>ОСЗН МОСКОВСКИЙ РН</orgDoc>
                </document>
@@ -104,7 +104,7 @@ gQMsq259NfKVuYkq</ds:X509Certificate>
                </ds:Signature>
             </AppData>
          </MessageData>
-      </ns1:idCard8Response>
+      </ns1:idCard9Response>
    </soapenv:Body>
 </soapenv:Envelope>`)
     
