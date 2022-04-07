@@ -46,19 +46,25 @@ module.exports = class extends Dia.HTTP.Handler {
 		const body = await new XMLReader ({
 			filterElements : 'Body',
 			map            : XMLNode.toObject ({})
-		}).process (xml).findFirst ()   		
-		
-		const [[t, d]] = Object.entries (body)
-		
-		this.rq.type = t
+		}).process (xml).findFirst ()   
 
-			.replace (/Request$/, '') // method, not message name
+		for (const [t, d] of Object.entries (body)) {
 
-			.replace (/[A-Z]/g,       // CamelCase to under_scores
-				(m, o) => (o ? '_' : '') + m.toLowerCase ()
-			)		
-		
-		for (const [k, v] of Object.entries (d)) this.rq [k] = d [k]
+			if (typeof d !== 'object') continue
+
+			this.rq.type = t
+
+				.replace (/Request$/, '') // method, not message name
+
+				.replace (/[A-Z]/g,       // CamelCase to under_scores
+					(m, o) => (o ? '_' : '') + m.toLowerCase ()
+				)		
+
+			for (const [k, v] of Object.entries (d)) this.rq [k] = d [k]
+			
+			break
+
+		}				
 
     }    
 
