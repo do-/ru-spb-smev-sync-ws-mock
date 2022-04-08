@@ -8,7 +8,7 @@ select_execute:
     
     	const {rq: {request: {FIO, DATE_BORTH}}} = this
     	
-    	const found = FIO.length % 2 === 0
+    	const found = false //FIO.length % 2 === 0
     	const nye   = parseInt (DATE_BORTH.charAt (9)) < 5 ? '' : 'не '
     	
     	let r = `<STATE_REGISTRED_ISFIND xmlns="">${found}</STATE_REGISTRED_ISFIND>`
