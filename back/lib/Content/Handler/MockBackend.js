@@ -43,10 +43,11 @@ module.exports = class extends Dia.HTTP.Handler {
         
 		const xml = await this.get_http_request_body (this.http.request)
                 
-		const body = await new XMLReader ({
-			filterElements : 'Body',
-			map            : XMLNode.toObject ({})
-		}).process (xml).findFirst ()   
+		const raw_body = await new XMLReader ({filterElements : 'Body'}).process (xml).findFirst ()
+
+		const ns = raw_body.children.map (i => i.namespaceURI).find (s => /\.ru\//.test (s))		
+		
+		const body = XMLNode.toObject ({}) (raw_body)
 
 		for (const [t, d] of Object.entries (body)) {
 
@@ -58,7 +59,14 @@ module.exports = class extends Dia.HTTP.Handler {
 
 				.replace (/[A-Z]/g,       // CamelCase to under_scores
 					(m, o) => (o ? '_' : '') + m.toLowerCase ()
-				)		
+				)
+
+			switch (ns) {
+				case 'http://gosuslugi.rspb.ru/stateregistredservice':
+				case 'http://smev.rspb.ru/regional/stateregistred2':
+					this.rq.type = ns.split ('/').pop () + '__' + this.rq.type
+					break
+			}
 
 			for (const [k, v] of Object.entries (d)) this.rq [k] = d [k]
 			
