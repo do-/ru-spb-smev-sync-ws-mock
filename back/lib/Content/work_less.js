@@ -52,8 +52,8 @@ srcCH6nTKA==
                 xmlns="http://gosuslugi.rspb.ru/periodsservice">
                 <WorkLessResult>
                     <PERIOD_ISFIND
-                        xmlns="">true
-                    </PERIOD_ISFIND>
+                        xmlns="">false</PERIOD_ISFIND>
+<!--                        
                     <PERIOD_ROOT_e
                         xmlns="">
                         <name>${FIO}</name>
@@ -73,6 +73,7 @@ srcCH6nTKA==
                             <dateend>2012-04-04</dateend>
                         </PERIOD_SUMS_e>
                     </PERIOD_BODY_e>
+-->                    
                 </WorkLessResult>
             </WorkLessResponse>
         </s:Body>
