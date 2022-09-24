@@ -82,5 +82,26 @@ module.exports = class extends Dia.HTTP.Handler {
         rp.setHeader ('Content-Type', 'application/soap+xml')
         rp.end (data)
 	}
+	
+	to_fault (x) {
+
+		return `<?xml version='1.0' encoding='utf-8'?>
+			<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">
+				<s:Body>
+					<s:Fault>
+						<faultcode>s:MustUnderstand</faultcode>
+						<faultstring>${x.message || '' + x}</faultstring>
+					</s:Fault>
+				</s:Body>
+			</s:Envelope>`
+	
+	}
     
+    send_out_error (x) {
+ 		let rp = this.http.response
+        rp.statusCode = 500
+        rp.setHeader ('Content-Type', 'application/soap+xml')
+        rp.end (this.to_fault (x))
+    }
+  
 }
