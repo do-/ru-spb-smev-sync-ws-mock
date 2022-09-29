@@ -5,14 +5,13 @@ module.exports = {
 select_stateregistredservice__execute:
 
     function () {
-    
+
     	const {rq: {request: {FIO, DATE_BORTH}}} = this
-    	
-    	const found = false //FIO.length % 2 === 0
-    	const nye   = parseInt (DATE_BORTH.charAt (9)) < 5 ? '' : 'не '
+
+    	const found = FIO.length % 2 === 0
     	
     	let r = `<STATE_REGISTRED_ISFIND xmlns="">${found}</STATE_REGISTRED_ISFIND>`
-    	
+
     	if (found) r += `
 			<STATE_REGISTRED_ROOT_e xmlns="">
 				<name>${FIO}</name>
@@ -22,8 +21,8 @@ select_stateregistredservice__execute:
 			<STATE_REGISTRED_BODY_e
 				xmlns="">
 				<kpy>0</kpy>
-				<stat1>${nye}состоит</stat1>
-				<stat2>${nye}получает</stat2>
+				<stat1>${parseInt (DATE_BORTH.charAt (3)) < 5 ? '' : 'не '}состоит</stat1>
+				<stat2>${parseInt (DATE_BORTH.charAt (9)) < 5 ? '' : 'не '}получает</stat2>
 			</STATE_REGISTRED_BODY_e>
     	`
     
@@ -36,7 +35,7 @@ select_stateregistredservice__execute:
 				</ExecuteResponse>
 			</s:Body>
 		</s:Envelope>`
-   
+
     },
         
 }
