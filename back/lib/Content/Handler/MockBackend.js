@@ -90,7 +90,7 @@ module.exports = class extends Dia.HTTP.Handler {
 				<s:Body>
 					<s:Fault>
 						<faultcode>s:MustUnderstand</faultcode>
-						<faultstring>${x.message || '' + x}</faultstring>
+						<faultstring xml:lang="ru-RU">${x.message || '' + x}</faultstring>
 					</s:Fault>
 				</s:Body>
 			</s:Envelope>`
